@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Todo from './todo';
+import Filters from './filters';
 
 export default class Body extends React.Component {
   constructor(props){
@@ -20,17 +21,45 @@ export default class Body extends React.Component {
     this.props.updateItem(updated, index);
   }
 
+  filter(index){
+    console.log(index);
+    let items = [];
+    switch(index){
+      case 0:
+        items = this.props.items;
+        break;
+      case 1:
+        items = this.props.items.filter((e,i) => {
+          return !e.done;
+        });
+        break;
+      case 2:
+        items = this.props.items.filter((e,i) => {
+          return e.done;
+        });
+        break;
+    }
+    console.log(items);
+    this.setState({
+      items: items
+    });
+  }
+
   render(){
     return(
       <section>
         <hr />
-        { this.props.items.map((e,i) => {
+        { this.state.items.map((e,i) => {
             return <Todo
                     key={e.id}
                     done={e.done}
                     text={e.text}
                     toggleDone={this.toggleDone.bind(this, i)} />;
         }) }
+        <hr />
+        <Filters
+          selected="0"
+          filter={this.filter.bind(this)} />
       </section>
     )
   }

@@ -21765,6 +21765,10 @@
 
 	var _todo2 = _interopRequireDefault(_todo);
 
+	var _filters = __webpack_require__(183);
+
+	var _filters2 = _interopRequireDefault(_filters);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21795,6 +21799,31 @@
 	      this.props.updateItem(updated, index);
 	    }
 	  }, {
+	    key: 'filter',
+	    value: function filter(index) {
+	      console.log(index);
+	      var items = [];
+	      switch (index) {
+	        case 0:
+	          items = this.props.items;
+	          break;
+	        case 1:
+	          items = this.props.items.filter(function (e, i) {
+	            return !e.done;
+	          });
+	          break;
+	        case 2:
+	          items = this.props.items.filter(function (e, i) {
+	            return e.done;
+	          });
+	          break;
+	      }
+	      console.log(items);
+	      this.setState({
+	        items: items
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -21803,13 +21832,17 @@
 	        'section',
 	        null,
 	        _react2.default.createElement('hr', null),
-	        this.props.items.map(function (e, i) {
+	        this.state.items.map(function (e, i) {
 	          return _react2.default.createElement(_todo2.default, {
 	            key: e.id,
 	            done: e.done,
 	            text: e.text,
 	            toggleDone: _this2.toggleDone.bind(_this2, i) });
-	        })
+	        }),
+	        _react2.default.createElement('hr', null),
+	        _react2.default.createElement(_filters2.default, {
+	          selected: '0',
+	          filter: this.filter.bind(this) })
 	      );
 	    }
 	  }]);
@@ -21884,6 +21917,102 @@
 	}(_react2.default.Component);
 
 	exports.default = Todo;
+
+/***/ },
+/* 183 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Filters = function (_React$Component) {
+	  _inherits(Filters, _React$Component);
+
+	  function Filters(props) {
+	    _classCallCheck(this, Filters);
+
+	    var _this = _possibleConstructorReturn(this, (Filters.__proto__ || Object.getPrototypeOf(Filters)).call(this, props));
+
+	    _this.state = {
+	      selected: parseInt(_this.props.selected)
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Filters, [{
+	    key: 'getClasses',
+	    value: function getClasses(current) {
+	      var active = current === this.state.selected ? 'btn-primary' : 'btn-secondary';
+	      return 'btn ' + active;
+	    }
+	  }, {
+	    key: 'change',
+	    value: function change(index) {
+	      this.setState({
+	        selected: index
+	      });
+	      this.props.filter(index);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'btn-group', role: 'group', 'aria-label': 'Basic example' },
+	        _react2.default.createElement(
+	          'button',
+	          { type: 'button',
+	            className: this.getClasses(0),
+	            onClick: function onClick() {
+	              return _this2.change(0);
+	            } },
+	          'All'
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { type: 'button',
+	            className: this.getClasses(1),
+	            onClick: function onClick() {
+	              return _this2.change(1);
+	            } },
+	          'Todo'
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { type: 'button',
+	            className: this.getClasses(2),
+	            onClick: function onClick() {
+	              return _this2.change(2);
+	            } },
+	          'Completed'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Filters;
+	}(_react2.default.Component);
+
+	exports.default = Filters;
 
 /***/ }
 /******/ ]);
