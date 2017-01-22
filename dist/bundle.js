@@ -21592,11 +21592,11 @@
 	});
 	var Todos = exports.Todos = [{
 	  id: 0,
-	  title: 'Learn Javascript',
+	  text: 'Learn Javascript',
 	  done: true
 	}, {
 	  id: 1,
-	  title: 'Learn React',
+	  text: 'Learn React',
 	  done: false
 	}];
 
