@@ -3,6 +3,7 @@
 import React from 'react';
 import {Todos} from './../data';
 import Header from './header';
+import Body from './body';
 
 export default class App extends React.Component {
   constructor(){
@@ -49,6 +50,16 @@ export default class App extends React.Component {
     });
   }
 
+  updateItem(item, index){
+    console.log(item, index);
+    const next = this.state.todos.slice(0);
+    next[index] = item;
+    this.setState({
+      todos: next
+    });
+  }
+
+
   render(){
     // Passing contextualized methods as properties to child components
     return (
@@ -59,6 +70,9 @@ export default class App extends React.Component {
           done={this.filterDone(this.state.todos)}
           addItem={this.addItem.bind(this)}
           writing={this.writing.bind(this)} />
+        <Body
+          items={this.state.todos}
+          updateItem={this.updateItem.bind(this)} />
       </section>
     )
   }
